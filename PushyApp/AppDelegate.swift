@@ -48,6 +48,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.keyWindow?.rootViewController?.presentViewController(alertCtrl, animated: true, completion: nil)
         }
     }
+    
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        
+        application.applicationIconBadgeNumber = 0
+        
+        
+        let alertCtrl = UIAlertController(title: "Received On Action", message: identifier, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let alertAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        
+        alertCtrl.addAction(alertAction)
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            application.keyWindow?.rootViewController?.presentViewController(alertCtrl, animated: true, completion: nil)
+        }
+        
+        completionHandler()
+
+    }
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

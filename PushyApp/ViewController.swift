@@ -21,8 +21,41 @@ class ViewController: UIViewController {
     }
 
     func requestPermissionToNotify(){
+        
+         // Action 1
+        
+        let floatAction = UIMutableUserNotificationAction()
+        floatAction.identifier = "FLOAT_ACTION"
+        floatAction.title = "Float"
+        
+        // Load or not the app into foreground
+        floatAction.activationMode = UIUserNotificationActivationMode.Background
 
-        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+        // About rendering
+        floatAction.destructive = true
+        
+        // Access to password protected resources would require authentication
+        floatAction.authenticationRequired = false
+        
+        // Action 2
+        
+        let stringAction = UIMutableUserNotificationAction()
+        stringAction.identifier = "STRING_ACTION"
+        stringAction.title = "String"
+        stringAction.activationMode = UIUserNotificationActivationMode.Foreground
+        stringAction.destructive = false
+        stringAction.authenticationRequired = false
+        
+        // Category of both actions
+        let category = UIMutableUserNotificationCategory()
+        category.identifier = "MAIN_CATEGORY"
+        category.setActions([floatAction, stringAction], forContext: .Default)
+        
+        
+        
+        
+        // Ask for permission
+        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: [category])
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
 
         
@@ -41,6 +74,8 @@ class ViewController: UIViewController {
         notification.soundName = UILocalNotificationDefaultSoundName
         
         notification.applicationIconBadgeNumber = 4123
+        
+        notification.category = "MAIN_CATEGORY"
         
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
